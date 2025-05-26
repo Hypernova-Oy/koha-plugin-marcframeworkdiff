@@ -1,0 +1,224 @@
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha: MARC Framework ValueBuilder: Configuration</title>
+ <style>
+  #options li, #operation li {
+    display: flex;
+    margin: 5px;
+    align-items: center;
+  }
+  #options li label, #operation li label {
+    flex-basis: 100px;
+  }
+  li select, li input {
+    width: 10em;
+    margin-right: 10px;
+  }
+  #pluginInfo {
+    display: flex;
+  }
+  #pluginInfo div:last-child {
+    margin-left: auto;
+  }
+  #operation {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+  }
+  #operation > div {
+    flex: 1;
+  }
+  #diff th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  #diff tr td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width:45px;
+  }
+  #diff tr td:nth-child(2) {
+    position: sticky;
+    left: 45px;
+    z-index: 2;
+  }
+  #diff tr td {
+    word-wrap: anywhere;
+  }
+ </style>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; MARC Framework differ &rsaquo; Configuration</div>
+
+<div class="main container-fluid">
+  <h3>MARCFrameworkDiff Plugin</h3>
+  <span class="hint">Find out what is different between your MARC frameworks and update en-masse.</span>
+
+  <div id="pluginInfo">
+    <table>
+      <caption>Plugin information</caption>
+      <tr>
+        <td>Plugin name:</td>
+        <td>[% pluginMeta.name %]</td>
+      </tr>
+      <tr>
+        <td>Plugin version:</td>
+        <td>[% pluginMeta.version %]</td>
+      </tr>
+      <tr>
+        <td>Plugin author:</td>
+        <td>[% pluginMeta.author %]</td>
+      </tr>
+      <tr>
+        <td>Plugin description:</td>
+        <td>[% pluginMeta.description %]</td>
+      </tr>
+    </table>
+
+    <div>
+      <h4>Sponsored by</h4>
+      <img src="data:image/png;base64,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" alt="" />
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAA7npUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjajVHbjcQgDPyniivBL17lkJd0HWz5OwGTXFZa6UbC2IMxYxP21+8Rfk5IkWAxl1RTIsCqVWlwCg0s3TJZtx3zCPGDD9eBgFLsOsIqzu/g4bPH1S/wzJ+FpsMNXrwPWnN+efKLF5TyWcgVKI+XafMLXkjFFdmIV1eUasmP1raVnij3Ms2SYuJssCaUc6rwi5BlzHM7hR6r1F4ojoFexIxnqkCT7MpKsKppqNRzRW3YDVZUAhJZc6cYlnsqWsFXQgKUV3+o0TXMv7O5Z/QF/2krvAEyYXa5ScnfsgAAAYNpQ0NQSUNDIHByb2ZpbGUAAHicfZE9SMNAHMVf04oiLQ4WEXHIUDvZRYs41ioUoUKoFVp1MLn0C5q0JCkujoJrwcGPxaqDi7OuDq6CIPgB4i44KbpIif9LCi1iPDjux7t7j7t3gNCqMs0MJABNt4xMKinm8qti/ysCGEEIcURlZtbnJCkNz/F1Dx9f72I8y/vcnyOkFkwG+ETiBKsbFvEG8cymVee8TxxmZVklPieeNOiCxI9cV1x+41xyWOCZYSObmScOE4ulHlZ6mJUNjThOHFE1nfKFnMsq5y3OWrXBOvfkLwwW9JVlrtMcRwqLWIIEEQoaqKAKCzFadVJMZGg/6eEfc/wSuRRyVcDIsYAaNMiOH/wPfndrFqen3KRgEuh7se2PCaB/F2g3bfv72LbbJ4D/GbjSu/5aC5j9JL3Z1SJHwNA2cHHd1ZQ94HIHGH2qy4bsSH6aQrEIvJ/RN+WB4VtgcM3trbOP0wcgS12lb4CDQyBaoux1j3cP9Pb275lOfz/ib3LTfjR5ZQAADXhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDQuNC4wLUV4aXYyIj4KIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJnaW1wOmRvY2lkOmdpbXA6ZTNmOWY0ZTAtYzY2YS00ZmYyLWJjZmItYWE3ZjJmMWRiMDdhIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmVjYjI4ODQ3LTlhYjAtNGVlYy1iNjMzLTkzMDkzOTZjZDczNSIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjE3Mzc3YTdkLWNhZjctNDI2Mi05MjYxLWQ3YzhkOTNjMjFlMSIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09IkxpbnV4IgogICBHSU1QOlRpbWVTdGFtcD0iMTc0NTMzMDQ3NjYzMDQyMSIKICAgR0lNUDpWZXJzaW9uPSIyLjEwLjM2IgogICB0aWZmOk9yaWVudGF0aW9uPSIxIgogICB4bXA6Q3JlYXRvclRvb2w9IkdJTVAgMi4xMCIKICAgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyNTowNDoyMlQxNzowMToxNiswMzowMCIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjU6MDQ6MjJUMTc6MDE6MTYrMDM6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJzYXZlZCIKICAgICAgc3RFdnQ6Y2hhbmdlZD0iLyIKICAgICAgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDplMzc3YzM1NC03ZWE1LTQyYWEtOWE4ZS04MDljMWEzMjg0MzAiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkdpbXAgMi4xMCAoTGludXgpIgogICAgICBzdEV2dDp3aGVuPSIyMDI1LTA0LTIyVDE3OjAxOjE2KzAzOjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PkXzJGAAAAAGYktHRABZAFkAWiSTuxAAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfpBBYOARBzX0JGAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAADMZJREFUeNrtnW1sVNeZx/+DGQMDaFIpVQK0KQZCCXJMAxjvzlB5NmKgvKQBEhOl/Vx1ta1W5QMfmqRaKjVayaxkqqKV9sN+WrVWk6IlL5gQd7d2FUwVWhpe5UQpL8FxYgUqTZcOYcY+v/1w71zfeSOmtmMPfn4Igc99Offe5znnPuec/30sGYZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGMaUM28sO23Z8o2kPSqjFojZIzCMO7FjxxPWndcQsz6nehZUKa8zE9z7LPiM7ZFau6FHH23aZGaduURnxF3u2v3UarP1uIhP1wurN9sYNt6dyXxj61br3o2q1OLQLGJmm9nM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" alt="" />
+    </div>
+  </div>
+
+  [% IF update %]
+  <div>
+    <h3>Update result: changes ([% update.rows_affected %])</h3>
+    <div>[% update.sql %]</div>
+    <div>[% update.optionsUsed.serialize %]</div>
+    [% IF update.errors %]
+    <div>
+      <h4>Error</h4>
+      <ul>
+      [% FOREACH error IN update.errors %]
+        <li>[% error %]</li>
+      [% END # / FOREACH error %]
+      </ul>
+    </div>
+    [% END # / update.errors %]
+  </div>
+  [% END # / update %]
+
+  <form method="post" action="/cgi-bin/koha/plugins/run.pl">
+    [% INCLUDE 'csrf-token.inc' %]
+    <input type="hidden" name="class" value="[% CLASS %]"/>
+    <input type="hidden" name="method" value="configure"/>
+
+    <fieldset id="options">
+      <legend>Options</legend>
+      <ul>
+        <li>
+          <label for="mfwd_frameworksInclude">MARC Frameworks:</label>
+          <select name="mfwd_frameworksInclude" title="Select MARC Frameworks" required multiple size="8">
+          [% FOREACH framework IN marcframeworks_available %]
+            <option value="[% framework.frameworkcode %]" [% IF framework.included %]selected[% END %]>[% framework.frameworktext %]</option>
+          [% END # / FOREACH marcframeworks_available %]
+          </select>
+          <span class="hint">Include these frameworks in the operation. Clear selection to include all frameworks.</span>
+        </li>
+        <li>
+          <label for="mfwd_perlyFalse">Perly false:</label>
+          <input type="checkbox" name="mfwd_perlyFalse" [% IF options.perlyFalse %]checked[% END %]/>
+          <span class="hint">When comparing values, "" and 0 and undef compare as equally undefined/unset/false.</span>
+        </li>
+        <li>
+          <label for="mfwd_verbose">Verbose:</label><input type="text" name="mfwd_verbose" value="[% options.verbose %]"/>
+        </li>
+        <li>
+          <label for="mfwd_fields">Fields:</label>
+          <input type="text" name="mfwd_fields" value="[% options.fields.join(',') %]"/>
+          <span class="hint">Comma separated list to limit comparison to these MARC fields only. Leave empty to inlcude all fields.</span>
+        </li>
+        <li>
+          <label for="mfwd_subfields">Subfields:</label>
+          <input type="text" name="mfwd_subfields" value="[% options.subfields.join(',') %]"/>
+          <span class="hint">Comma separated list to limit comparison to these MARC subfields only. Leave empty to inlcude all subfields.</span>
+        </li>
+        <li>
+          <label for="mfwd_attributesInclude">Attributes to include:</label>
+          <select name="mfwd_attributesInclude" title="Select attributes to include" multiple size="8">
+            [% FOREACH attributeKey IN marc_subfield_structure_colNames.keys.sort %]
+            [%   attribute = marc_subfield_structure_colNames.$attributeKey %]
+            <option value="[% attributeKey %]" [% IF attribute.included %]selected[% END %]>[% attributeKey %]</option>
+            [% END # / FOREACH marc_subfield_structure_colNames %]
+          </select>
+          <span class="hint">Include only these attributes to the comparison. Clear selection to include all attributes.</span>
+        </li>
+    </fieldset>
+
+    <h3>Operation</h3>
+    <div id="operation">
+      <div>
+        <h4>Compare</h4>
+        <div>
+          <span class="hint">Produce a diff at the bottom of this page from the selected filters.</span>
+        </div>
+        <ul>
+          <li>
+            <button name="mfwd_diff" type="submit" value="1">Diff</button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4>Update</h4>
+        <div>
+          <span class="hint">Comma separated list to limit comparison to these MARC fields only. Leave empty to inlcude all fields.</span>
+        </div>
+        <ul>
+          <li><span class="hint">Set the value to this attribute for the first included field and subfield.</span></li>
+          <li>
+            <label for="mfwd_attribute">Attribute:</label>
+            <select name="mfwd_attribute" title="Select attribute to update">
+              <option value="">Select attribute</option>
+              [% FOREACH attributeKey IN marc_subfield_structure_colNames.keys.sort %]
+              [%   attribute = marc_subfield_structure_colNames.$attributeKey %]
+              <option value="[% attributeKey %]" [% IF attribute.attributed %]selected[% END %]>[% attributeKey %]</option>
+              [% END # / FOREACH marc_subfield_structure_colNames %]
+            </select>
+          </li>
+          <li><span class="hint">Set this value to the selected MARC Frameworks' first included field's and/or subfield's attribute.</span></li>
+          <li>
+            <label for="mfwd_value">Value:</label>
+            <input type="text" name="mfwd_value" value="[% options.value %]"/>
+          </li>
+          <li>
+            <button name="mfwd_update" type="submit" value="1">Update</button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4>Action logs</h4>
+        <a href="/cgi-bin/koha/reports/guided_reports.pl?id=[% action_logs_report_id.id %]&op=run">Run action logs report</a>
+      </div>
+    </div>
+  </form>
+
+  [% IF diffTable %]
+  <div id="diff">
+    <table>
+      <caption>MARC Frameworks side-by-side comparison</caption>
+      [% FOREACH row IN diffTable %]
+      <tr>
+      [%   IF loop.first() %]
+        [%   FOREACH col IN row %]
+        <th>[% col %]</th>
+        [%   END %]
+      [%   ELSE %]
+      [%     FOREACH col IN row %]
+        <td>[% col %]</td>
+      [%     END %]
+      [%   END %]
+      </tr>
+      [% END %]
+    </table>
+  </div>
+  [% END # / diffTable %]
+
+</div>
+[% INCLUDE 'intranet-bottom.inc' %]

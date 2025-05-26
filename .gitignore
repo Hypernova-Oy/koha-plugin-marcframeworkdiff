@@ -1,0 +1,4 @@
+koha-plugin-*.kpz
+dist/
+.vscode/
+.gitconfig
