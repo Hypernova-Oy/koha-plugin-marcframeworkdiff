@@ -54,12 +54,12 @@ sub sql_filter {
     push(@placeholders, @$biblio_framework_codes);
   }
 
-  if ($fields && defined($options->fields)) {
+  if ($fields && defined($options->fields) && @{$options->fields}) {
     push(@sql, "tagfield IN (" . join(",", ('?') x @{$options->fields}) . ")");
     push(@placeholders, @{$options->fields});
   }
 
-  if ($subfields && defined($options->subfields)) {
+  if ($subfields && defined($options->subfields) && @{$options->subfields}) {
     push(@sql, "tagsubfield IN (" . join(",", ('?') x @{$options->subfields}) . ")");
     push(@placeholders, @{$options->subfields});
   }
