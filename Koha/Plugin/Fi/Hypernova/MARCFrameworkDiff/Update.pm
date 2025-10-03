@@ -21,6 +21,8 @@ use Modern::Perl;
 use strict;
 use warnings;
 
+use Koha::Caches;
+
 sub new {
   my ($class) = @_;
   my $self = bless({}, $class);
@@ -104,6 +106,8 @@ sub update {
     my $sql = $self->sql;
     $sql =~ s/\?/'$sql_placeholders->[$i++]'/gsm;
     $self->sql($sql);
+
+    Koha::Caches->get_instance()->flush_all();
   };
   if ($@) {
     push(@errors, $@);
