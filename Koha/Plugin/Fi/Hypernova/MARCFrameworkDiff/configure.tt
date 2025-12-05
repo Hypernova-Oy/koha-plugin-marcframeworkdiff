@@ -186,6 +186,7 @@
           <li>
             <label for="mfwd_value">Value:</label>
             <input type="text" name="mfwd_value" value="[% options.value %]"/>
+            <span for="mfwd_value" id="mfwd_value_description"></span>
           </li>
           <li>
             <button name="mfwd_update" type="submit" value="1">Update</button>
@@ -222,3 +223,100 @@
 
 </div>
 [% INCLUDE 'intranet-bottom.inc' %]
+
+<script>
+let mfwd_attribute_elem = $("select[name='mfwd_attribute']");
+let mfwd_value_elem = $("input[name='mfwd_value']");
+let mfwd_description_elem = $("#mfwd_value_description");
+
+mfwd_attribute_elem.on("input", (e) => {
+  mfwd_render_description_content();
+});
+mfwd_value_elem.on("input", (e) => {
+  mfwd_render_description_content();
+});
+
+function mfwd_render_description_content() {
+  if (mfwd_attribute_elem.val() === "hidden") {
+    mfwd_description_elem.show().html(populateHiddenCheckboxes(mfwd_value_elem.val()));
+  }
+  else {
+    mfwd_description_elem.show().html("");
+  }
+}
+//Copypaste from https://github.com/Koha-Community/Koha/blob/main/koha-tmpl/intranet-tmpl/prog/js/marc_subfields_structure.js#L52
+function populateHiddenCheckboxes(hidden_value) {
+  let description = "A number between -8 and 8. Typically 0 or -6.<br/>";
+
+  // default to false
+  var opac_checked = false;
+  var intranet_checked = false;
+  var editor_checked = false;
+  var collapsed_checked = false;
+  var flagged_checked = false;
+
+  if (hidden_value == "-8") {
+      flagged_checked = true;
+  } else if (hidden_value == "-7") {
+      opac_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "-6") {
+      opac_checked = true;
+      intranet_checked = true;
+  } else if (hidden_value == "-5") {
+      opac_checked = true;
+      intranet_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "-4") {
+      opac_checked = true;
+  } else if (hidden_value == "-3") {
+      opac_checked = true;
+      editor_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "-2") {
+      opac_checked = true;
+      editor_checked = true;
+  } else if (hidden_value == "-1") {
+      opac_checked = true;
+      intranet_checked = true;
+      editor_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "0") {
+      opac_checked = true;
+      intranet_checked = true;
+      editor_checked = true;
+  } else if (hidden_value == "1") {
+      intranet_checked = true;
+      editor_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "2") {
+      editor_checked = true;
+  } else if (hidden_value == "3") {
+      editor_checked = true;
+      collapsed_checked = true;
+  } else if (hidden_value == "4") {
+      intranet_checked = true;
+      editor_checked = true;
+  } else if (hidden_value == "5") {
+      collapsed_checked = true;
+  } else if (hidden_value == "6") {
+      intranet_checked = true;
+  } else if (hidden_value == "7") {
+      intranet_checked = true;
+      collapsed_checked = true;
+  } else if ( hidden_value == '8') {
+    //skip
+  }
+  else {
+    description += "Unknown 'hidden' value.";
+  }
+
+  if (opac_checked) { description += "<i> opac </i>" }
+  if (intranet_checked) { description += "<i> intranet </i>" }
+  if (editor_checked) { description += "<i> editor </i>" }
+  if (collapsed_checked) { description += "<i> collapsed </i>" }
+  if (flagged_checked) { description += "<i> flagged </i>" }
+
+  return description;
+}
+</script>
