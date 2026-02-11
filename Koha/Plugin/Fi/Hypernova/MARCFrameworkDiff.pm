@@ -23,7 +23,6 @@ use base qw(Koha::Plugins::Base);
 
 use Cwd;
 use Mojo::JSON qw(decode_json);
-use YAML;
 use Try::Tiny;
 
 use Koha::Plugin::Fi::Hypernova::MARCFrameworkDiff::Configure;
